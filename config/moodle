@@ -1,0 +1,25 @@
+server {
+    client_max_body_size 20M;
+    listen 80 default_server;
+
+    root /data/web/public;
+    index index.php index.html index.htm;
+
+    location / {
+    	try_files $uri $uri/index.php;
+    }
+
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+
+        include fastcgi.conf;
+        fastcgi_pass phpfpm_backend;
+        fastcgi_param SCRIPT_FILENAME $request_filename;
+        fastcgi_read_timeout 300;
+    }
+
+    location ~ /\.ht {
+    	deny all;
+    }
+}
