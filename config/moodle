@@ -2,7 +2,7 @@ server {
     client_max_body_size 20M;
     listen 80 default_server;
 
-    root /data/web/public;
+    root /data/web;
     index index.php index.html index.htm;
 
     location / {
