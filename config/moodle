@@ -7,24 +7,20 @@ server {
 
     location / {
     	try_files $uri $uri/index.php;
+
+      # moodle rewrite rules
+      rewrite ^/(.*.php)(/)(.*)$ /$1?file=/$3 last;
     }
 
     location ~ \.php$ {
+        fastcgi_pass phpfpm_backend;
+        fastcgi_index index.php;
 
         include fastcgi.conf;
 
+        #Needed to get file paths working correctly
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-
-
-
-        fastcgi_pass phpfpm_backend;
-        fastcgi_index index.php;
-		    include fastcgi_params;
-
-        #fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
-
-        #fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name$fastcgi_path_info;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
 
         fastcgi_read_timeout 300;
     }
