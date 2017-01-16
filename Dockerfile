@@ -18,6 +18,10 @@ RUN ln -s /etc/nginx/sites-available/moodle /etc/nginx/sites-enabled/moodle && \
 ADD config/nginx-start.sh /opt/bin/nginx-start.sh
 RUN chmod u=rwx /opt/bin/nginx-start.sh
 
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log
+RUN ln -sf /dev/stderr /var/log/nginx/error.log
+
 RUN mkdir -p /data
 VOLUME ["/data"]
 
