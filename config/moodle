@@ -1,5 +1,5 @@
 server {
-    client_max_body_size 20M;
+    client_max_body_size 30M;
     listen 80 default_server;
 
     root /data/web;
