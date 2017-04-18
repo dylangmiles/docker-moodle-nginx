@@ -2,6 +2,17 @@ server {
     client_max_body_size 30M;
     listen 80 default_server;
 
+    return 301 https://$host$request_uri;
+}
+
+server {
+    client_max_body_size 30M;
+    listen 443 ssl;
+
+    ssl on;
+    ssl_certificate /data/cert/ssl_certificate.crt;
+    ssl_certificate_key /data/cert/server.key;
+
     root /data/web;
     index index.php index.html index.htm;
 
